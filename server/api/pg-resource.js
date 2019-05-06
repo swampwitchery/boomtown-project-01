@@ -52,9 +52,9 @@ module.exports = postgres => {
     },
     async getUserById(id) {
       const findUserQuery = {
-        text: '', // @TODO: Basic queries
+        text: 'SELECT * FROM users WHERE id = $1', 
         values: [id]
-      };
+      }
 
       try {
         const user = await postgres.query(findUserQuery);
@@ -67,58 +67,59 @@ module.exports = postgres => {
 
 
     async getItems(idToOmit) {
-      const items = await postgres.query({
-        /**
-         *  @TODO: Advanced queries
-         *
-         *  Get all Items. If the idToOmit parameter has a value,
-         *  the query should only return Items were the ownerid column
-         *  does not contain the 'idToOmit'
-         *
-         *  Hint: You'll need to use a conditional AND and WHERE clause
-         *  to your query text using string interpolation
-         */
-
-        text: ``,
-        values: idToOmit ? [idToOmit] : []
-      });
-      return items.rows;
+      try{
+        const items = await postgres.query({
+          text: `SELECT * FROM items WHERE itemowner != $1`,
+          values: idToOmit ? [idToOmit] : []
+        });
+        return items.rows;
+      } catch (e) {
+        throw 'Error';
+      }
     },
+    
     async getItemsForUser(id) {
+      try{
       const items = await postgres.query({
-        /**
-         *  @TODO: Advanced queries
-         *  Get all Items. Hint: You'll need to use a LEFT INNER JOIN among others
-         */
-        text: ``,
+        text: `SELECT * FROM items WHERE itemowner = $1`,
         values: [id]
-      });
-      return items.rows;
+        });
+        return items.rows;
+      } catch (e) {
+        throw 'Error';
+      } 
     },
+
     async getBorrowedItemsForUser(id) {
+      try{
       const items = await postgres.query({
-        /**
-         *  @TODO: Advanced queries
-         *  Get all Items. Hint: You'll need to use a LEFT INNER JOIN among others
-         */
-        text: ``,
+        text: `SELECT * FROM items WHERE borrower = $1`,
         values: [id]
-      });
-      return items.rows;
+        });
+        return items.rows;
+      } catch (e) {
+        throw 'Error';
+      } 
     },
+
     async getTags() {
-      const tags = await postgres.query(/* @TODO: Basic queries */);
-      return tags.rows;
-    },
+      try{
+      const tags = await postgres.query(`SELECT * FROM tags`);
+        return tags.rows;
+      } catch (e) {
+        throw 'Error';
+      }
+      },
+    
     async getTagsForItem(id) {
       const tagsQuery = {
-        text: ``, // @TODO: Advanced queries
+        text: `SELECT * FROM tags INNER JOIN itemtags ON tags.id=itemtags.tagid WHERE itemtags.itemid = $1`,
         values: [id]
       };
-
       const tags = await postgres.query(tagsQuery);
       return tags.rows;
     },
+
     async saveNewItem({ item, user }) {
       /**
        *  @TODO: Adding a New Item
