@@ -1,22 +1,27 @@
 # Boomtown 🏙
 
-## Server
+## Description 
+
+Part 1: Using PostgresSQL to make an efficient database for the boomtown project. We now should be able to pull information from the database and make it appear in the GraphQL playground which was used by making queries and calling those in the resolvers. 
+
+
+### Server
 
 Commands must be run from the `server` directory:
 
-### Installation
+#### Installation
 
 ```bash
 npm install
 ```
 
-### Run
+#### Run
 
 ```bash
 npm run start:dev
 ```
 
-### Tests
+#### Tests
 
 Just linting:
 
@@ -48,29 +53,29 @@ Run all tests:
 npm run test
 ```
 
-## Client
+### Client
 
 Commands must be run from the `client` directory:
 
-### Installation
+#### Installation
 
 ```bash
 npm install
 ```
 
-### Run
+#### Run
 
 ```bash
 npm start
 ```
 
-### Build
+#### Build
 
 ```bash
 npm run build
 ```
 
-### Tests
+#### Tests
 
 Just linting:
 
